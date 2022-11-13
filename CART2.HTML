@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./kfc.ico" type="image/x-icon" />
+    <title>CART</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, "Noto Sans",
+          "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol", "Noto Color Emoji";
+      }
+
+      /* nav */
+
+      #top-sec {
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        /*   background-color: #fff; */
+        width: 100vw;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+        /*  transform: scale(1.2); */
+        /* padding-left: 610px;
+  padding-right: 620px; */
+      }
+
+      #topHead {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        /*  margin-top: 20px; */
+        font-size: 1rem;
+        font-weight: 400;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        border-bottom: 0.1px solid gray;
+      }
+      #topHead > p {
+        margin-right: 20px;
+        margin-left: 20px;
+      }
+      #topHead > button {
+        border-radius: 20px;
+        width: auto;
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: black;
+        color: white;
+        font-weight: 700;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 10px;
+        margin-left: 100px;
+        margin-right: 100px;
+        font-weight: 700;
+        /* border: 1px solid black; */
+      }
+      li,
+      a,
+      button {
+        text-decoration: none;
+      }
+      #logo-links img {
+        cursor: pointer;
+        width: 70px;
+        background-color: black;
+      }
+      .cta1 img {
+        width: 40px;
+      }
+      .cta1 {
+        text-align: center;
+      }
+      #nav-links {
+        list-style: none;
+      }
+      #nav-links li {
+        display: inline-block;
+        padding: 0px 20px;
+      }
+      #nav-links li a {
+        transition: all 0.3s ease 0s;
+        font-weight: 500;
+        color: black;
+      }
+      #nav-links li a:hover {
+        color: #d10a20;
+      }
+      #logo-links {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #container {
+        /* padding: 16px; */
+
+        width: auto;
+        height: auto;
+        display: grid;
+      /*   border: 1px solid green; */
+        margin: auto;
+        margin-top: 100px;
+        grid-template-columns: repeat(5, 300px);
+        grid-template-rows: auto;
+        /*  justify-content: center; */
+        gap: 20px;
+        padding: 20px;
+        line-height: 30px;
+      }
+
+      #container > div {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+        height: 350px;
+        padding: 20px;
+        border-radius: 20px;
+      }
+      #container > div > img {
+        width: 100%;
+      }
+      #cartTotal {
+        width: auto;
+        height: auto;
+       /*  border: 1px solid black; */
+        text-align: center;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+      }
+      .bill{
+       width: 20%;
+       height: auto;
+              /*  border: 1px solid blue; */
+               padding: 20px;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+               border-radius: 20px;
+
+
+      }
+      .bill>img{
+      margin-top: 20px;
+      }
+
+      .bill>h3{
+      margin-top: 20px;
+      }
+
+      .bill>h4{
+       margin-top: 20px;
+      }
+      .bill>P{
+       margin-top: 50px;
+      }
+
+
+
+    </style>
+  </head>
+  <body>
+    <div id="top-sec">
+      <!--  <div id="topHead">
+         <i class="fa-solid fa-location-dot" style="color: red" ;></i>
+         <p>Allow location access for local store menu and promos</p>
+         <button>set Location</button>
+       </div> -->
+      <header>
+        <div id="logo-links">
+          <a href="./index.html"
+            ><img class="logo" src="./HFC (2).png" alt="logo"
+          /></a>
+          <nav>
+            <ul id="nav-links">
+              <li><a href="./chickenBuckets.html">Menu</a></li>
+              <li><a href="./index.html#offers-Deals">Deals</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    </div>
+
+    <div id="container"></div>
+
+    <div id="cartTotal">
+      <div class="bill">
+        <img src="./HFC (2).png" alt="" /><br />
+        <h3>Bill</h3>
+        <br />
+        <h4 id="totalbill"></h4>
+        <p><i>THANK YOU & PLEASE COME BACK</i></p>
+       
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let cartedi = JSON.parse(localStorage.getItem("carted")) || [];
+  console.log(cartedi);
+
+  displayCart(cartedi);
+  function displayCart(data) {
+   document.querySelector("#container").innerHTML=null
+
+    data.forEach((elem, i) => {
+      let div = document.createElement("div");
+
+      let image = document.createElement("img");
+      image.setAttribute("src", elem.image);
+
+      let pdesc = document.createElement("h3");
+      pdesc.innerText = elem.productdesc;
+
+      let price = document.createElement("p");
+      price.innerText = `Rs. ` + elem.price;
+
+      let dis = document.createElement("h6");
+      dis.innerText = elem.description;
+
+      let btn = document.createElement("button");
+      btn.innerText="Remove"
+      btn.addEventListener("click",function(){
+       deletecard(data,i)
+      })
+
+      div.append(image, pdesc, price, dis,btn);
+
+      document.querySelector("#container").append(div);
+    });
+  }
+
+  function deletecard(data,i){
+data.splice(i,1)
+localStorage.setItem("carted",JSON.stringify(data))
+displayCart(data)
+
+  }
+
+  let totalCost = cartedi.reduce((acc, el) => {
+    return acc + eval(el.price);
+  }, 0);
+  console.log(totalCost);
+
+  let cartTotal = document.querySelector("#totalbill");
+  cartTotal.innerText = "Total Cost: " + totalCost;
+</script>
